@@ -14,61 +14,12 @@ async function fetchData(searchTerm) {
     return response.data.Search;
 };
 
-// Create a search-input element with dropdown feature
-const root = document.querySelector('.autocomplete');
-root.innerHTML = `
-    <label><b>Search for a Movie</b><label/>
-    <input class='input' />
-    <div class='dropdown'>
-        <div class='dropdown-menu'>
-            <div class='dropdown-content results'></div>
-        </div>
-    </div>
-`;
-const dropdown = document.querySelector('.dropdown');
-const resultsWrapper = document.querySelector('.results');
+createAutoComplete({
+    root: document.querySelector('.autocomplete')
+});
 
-// Delay the search input
-// List the movies in the dropdown menu after searching
-const input = document.querySelector('input');
-async function onInput(event) {
-    const movies = await fetchData(event.target.value)
-
-    // Remove dropdown if there's no movie in the input
-    if (!movies.length) {
-        dropdown.classList.remove('is-active');
-        return;
-    }
-
-    // Activate dropdown menu
-    dropdown.classList.add('is-active');
-
-    for (let movie of movies) {
-        const option = document.createElement('a');
-        const imgSrc = movie.Poster === 'N/A' ? '' : movie.Poster;
-        option.classList.add('dropdown-item')
-        option.innerHTML =
-            `<img src="${imgSrc}" />
-            ${movie.Title}
-            `;
-
-        // Select the movie
-        option.addEventListener('click', () => {
-            dropdown.classList.remove('is-active');
-            input.value = movie.Title
-            onMovieSelect(movie);
-        })
-        resultsWrapper.appendChild(option);
-    }
-};
-
-input.addEventListener('input', debounce(onInput, 500));
-
-// Close the dropdown if there's a click outside the dropdown
-document.addEventListener('click', event => {
-    if (!root.contains(event.target)) {
-        dropdown.classList.remove('is-active')
-    }
+createAutoComplete({
+    root: document.querySelector('.autocomplete2')
 });
 
 // Fetch the selected movie
@@ -121,3 +72,4 @@ function movieTemplate(movieDetail) {
    </article>
  `;
 }
+
