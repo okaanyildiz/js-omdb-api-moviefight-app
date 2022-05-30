@@ -1,4 +1,10 @@
-function createAutoComplete({ root, renderOption, onOptionSelect, inputValue }) {
+function createAutoComplete({
+    root,
+    renderOption,
+    onOptionSelect,
+    inputValue,
+    fetchData
+}) {
 
     // Create a search-input element with dropdown feature
     root.innerHTML = `
@@ -17,10 +23,10 @@ function createAutoComplete({ root, renderOption, onOptionSelect, inputValue }) 
     // List the movies in the dropdown menu after searching
     const input = root.querySelector('input');
     async function onInput(event) {
-        const movies = await fetchData(event.target.value)
+        const items = await fetchData(event.target.value)
 
         // Remove dropdown if there's no movie in the input
-        if (!movies.length) {
+        if (!items.length) {
             dropdown.classList.remove('is-active');
             return;
         }
@@ -29,17 +35,17 @@ function createAutoComplete({ root, renderOption, onOptionSelect, inputValue }) 
         dropdown.classList.add('is-active');
 
         // List the movies in the input
-        for (let movie of movies) {
+        for (let item of items) {
             const option = document.createElement('a');
 
             option.classList.add('dropdown-item')
-            option.innerHTML = renderOption(movie);
+            option.innerHTML = renderOption(item);
 
             // Select the movie
             option.addEventListener('click', () => {
                 dropdown.classList.remove('is-active');
-                input.value = inputValue(movie);
-                onOptionSelect(movie);
+                input.value = inputValue(item);
+                onOptionSelect(item);
             })
             resultsWrapper.appendChild(option);
         }
