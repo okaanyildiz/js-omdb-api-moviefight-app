@@ -1,6 +1,5 @@
-// Activate the autocomplete
-createAutoComplete({
-    root: document.querySelector('.autocomplete'),
+// Necessary functions collection for createAutoComplete
+const autoCompleteConfig = {
     // List the movies
     renderOption(movie) {
         const imgSrc = movie.Poster === 'N/A' ? '' : movie.Poster;
@@ -31,6 +30,16 @@ createAutoComplete({
         // Filter the response data to get only the info about movies
         return response.data.Search;
     }
+}
+
+// Activate the autocomplete for right and left columns
+createAutoComplete({
+    ...autoCompleteConfig,
+    root: document.querySelector('#left-autocomplete')
+});
+createAutoComplete({
+    ...autoCompleteConfig,
+    root: document.querySelector('#right-autocomplete')
 });
 
 // Fetch the selected movie
