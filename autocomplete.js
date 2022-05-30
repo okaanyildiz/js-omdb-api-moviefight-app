@@ -1,4 +1,4 @@
-function createAutoComplete({ root }) {
+function createAutoComplete({ root, renderOption }) {
 
     // Create a search-input element with dropdown feature
     root.innerHTML = `
@@ -28,14 +28,12 @@ function createAutoComplete({ root }) {
         // Activate dropdown menu
         dropdown.classList.add('is-active');
 
+        // List the movies in the input
         for (let movie of movies) {
             const option = document.createElement('a');
-            const imgSrc = movie.Poster === 'N/A' ? '' : movie.Poster;
+
             option.classList.add('dropdown-item')
-            option.innerHTML =
-                `<img src="${imgSrc}" />
-            ${movie.Title}
-            `;
+            option.innerHTML = renderOption(movie);
 
             // Select the movie
             option.addEventListener('click', () => {

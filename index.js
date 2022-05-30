@@ -14,12 +14,17 @@ async function fetchData(searchTerm) {
     return response.data.Search;
 };
 
+// Activate the autocomplete
 createAutoComplete({
-    root: document.querySelector('.autocomplete')
-});
-
-createAutoComplete({
-    root: document.querySelector('.autocomplete2')
+    root: document.querySelector('.autocomplete'),
+    // List the movies
+    renderOption(movie) {
+        const imgSrc = movie.Poster === 'N/A' ? '' : movie.Poster;
+        return `
+            <img src="${imgSrc}" />
+            ${movie.Title} (${movie.Year})
+            `;
+    }
 });
 
 // Fetch the selected movie
