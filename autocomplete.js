@@ -1,4 +1,4 @@
-function createAutoComplete({ root, renderOption }) {
+function createAutoComplete({ root, renderOption, onOptionSelect, inputValue }) {
 
     // Create a search-input element with dropdown feature
     root.innerHTML = `
@@ -38,8 +38,8 @@ function createAutoComplete({ root, renderOption }) {
             // Select the movie
             option.addEventListener('click', () => {
                 dropdown.classList.remove('is-active');
-                input.value = movie.Title
-                onMovieSelect(movie);
+                input.value = inputValue(movie);
+                onOptionSelect(movie);
             })
             resultsWrapper.appendChild(option);
         }
